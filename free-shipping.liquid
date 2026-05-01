@@ -1,0 +1,27 @@
+<div id="free-shipping">
+  {% if settings.enable_free_bar
+    and settings.free_shipping_limit != blank
+    and settings.free_shipping_smessage != blank
+  %}
+    {% assign threshold_amount = settings.free_shipping_limit | times: 100 %}
+    {% assign total = cart.total_price %}
+    {% assign remains_amount = threshold_amount | minus: total %}
+    {% assign remains_amount_money = remains_amount | money %}
+    {%- if total >= threshold_amount -%}
+      {%- assign width = 100 -%}
+    {%- else -%}
+      {% assign width = total | times: 100 | divided_by: threshold_amount %}
+    {%- endif -%}
+
+    {%- if total >= threshold_amount -%}
+      <p>{{ settings.free_shipping_smessage }}</p>
+    {%- else -%}
+      <p>
+        {{ settings.free_shipping_message | replace: 'XX', remains_amount_money }}
+      </p>
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar" style="width: {{ width }}%"></div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
