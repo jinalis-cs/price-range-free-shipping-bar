@@ -1,5 +1,19 @@
 // https://dte2dc-ra.myshopify.com/
 
+{% if paginate.next and search.results.size > 0 %}
+  {% if paginate.pages > 1 and paginate.next.url %}
+    <div class="lodeMore-btn-wpr text-center">
+      <a
+        href="{{ paginate.next.url }}"
+        class="btn load-more"
+        data-page="{{ paginate.current_page }}"
+      >
+          {{  'sections.collection_template.load_more' | t }}
+      </a>
+    </div>
+  {% endif %}
+{% endif %}
+
 document.addEventListener("click", function (e) {
   const btn = e.target.closest(".load-more");
   if (!btn) return;
